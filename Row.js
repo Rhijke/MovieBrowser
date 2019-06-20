@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 15,
-    color: 'cadetblue'
+    color: 'darkorchid'
   },
   description: {
     flexDirection: 'row'
@@ -20,15 +20,9 @@ const Row = props => {
     <View>
       <TouchableOpacity
         style={styles.movie}
-        // onPress={() => props.onSelectMovie(props)}
+        onPress={() => props.onSelectMovie(props)}
       >
         <Text style={styles.title}>{props.title}</Text>
-        {/* <View style={styles.description}>
-          <Image
-            source={{ uri: props.poster }}
-            style={{ width: 100, height: 150 }}
-          />
-        </View> */}
       </TouchableOpacity>
     </View>
   );

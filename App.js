@@ -1,76 +1,30 @@
 import React from 'react';
-import { StyleSheet, Text, View, Picker, Image } from 'react-native';
-import { SearchBar } from 'react-native-elements';
-import Constants from 'expo-constants';
-import { fetchMovies } from './api';
-import ScrollViewMovies from './ScrollViewMovies';
+import { createAppContainer, createStackNavigator } from 'react-navigation';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default class App extends React.Component {
-  state = {
-    search: '',
-    pickerTitle: true,
-    pickerValue: 'Title',
-    results: []
-  };
+import SearchScreen from './screens/SearchScreen';
+import MovieDetailsScreen from './screens/MovieDetailsScreen';
 
-  updateSearch = search => {
-    this.setState({ search });
-  };
-
-  doneSearch = async () => {
-    let movie = await fetchMovies(this.state.search);
-    this.setState(prevState => ({
-      results: movie
-    }));
-    // setTimeout(() => console.log(this.state.results), 1000);
-  };
-  checkPicker = () => {
-    if (this.state.pickerTitle) {
-      return 'Enter Movie Title';
+const AppNavigator = createStackNavigator(
+  {
+    SearchMovie: SearchScreen,
+    MovieDetails: MovieDetailsScreen
+  },
+  {
+    initialRouteName: 'SearchMovie',
+    navigationOptions: {
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: '#9932CC'
+      }
     }
-    return 'Enter IMDB Number';
-  };
+  }
+);
+const AppContainer = createAppContainer(AppNavigator);
+export default AppContainer;
 
-  changePicker = itemValue => {
-    this.setState(prevState => ({
-      pickerTitle: !prevState.pickerTitle,
-      pickerValue: itemValue
-    }));
-  };
+export class App extends React.Component {
   render() {
-    return (
-      <View style={styles.container}>
-        <Picker
-          selectedValue={this.state.pickerValue}
-          style={{ height: 50, width: 125 }}
-          onValueChange={itemValue => {
-            this.changePicker(itemValue);
-            this.search.clear();
-          }}
-          mode={'dialog'}
-        >
-          <Picker.Item label="Title" value="title" />
-          <Picker.Item label="IMDB" value="imdb" />
-        </Picker>
-
-        <SearchBar
-          ref={search => (this.search = search)}
-          placeholder={this.checkPicker()}
-          onChangeText={this.updateSearch}
-          value={this.state.search}
-          onEndEditing={this.doneSearch}
-        />
-        {this.state.results.length > 0 ? (
-          <ScrollViewMovies movies={this.state.results} />
-        ) : null}
-      </View>
-    );
+    return <AppNavigator />;
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: Constants.statusBarHeight
-  }
-});

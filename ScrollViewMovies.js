@@ -5,11 +5,10 @@ import PropTypes from 'prop-types';
 import Row from './Row';
 
 const ScrollViewMovies = props => {
-  console.log(props);
   return (
     <ScrollView>
       {props.movies.map(movie => (
-        <Row {...movie} />
+        <Row {...movie} onSelectMovie={props.onSelectMovie} />
       ))}
     </ScrollView>
   );
