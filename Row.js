@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
   movie: {
-    padding: 20
+    padding: 10,
+    borderBottomColor: 'darkorchid',
+    borderBottomWidth: 2
   },
   title: {
     fontSize: 15,

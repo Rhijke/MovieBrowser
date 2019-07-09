@@ -14,14 +14,16 @@ export default class SearchMovieForm extends React.Component {
   };
 
   updateSearch = search => {
-    this.setState({ search });
+    search ? this.setState({ search }) : null;
   };
 
   doneSearch = async () => {
-    let movies = await fetchMovies(this.state.search);
-    this.setState(prevState => ({
-      results: movies
-    }));
+    if (this.state.search) {
+      let movies = await fetchMovies(this.state.search);
+      this.setState(prevState => ({
+        results: movies
+      }));
+    }
   };
   checkPicker = () => {
     if (this.state.pickerTitle) {
@@ -33,7 +35,8 @@ export default class SearchMovieForm extends React.Component {
   changePicker = itemValue => {
     this.setState(prevState => ({
       pickerTitle: !prevState.pickerTitle,
-      pickerValue: itemValue
+      pickerValue: itemValue,
+      results: []
     }));
   };
 

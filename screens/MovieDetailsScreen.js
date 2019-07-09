@@ -11,11 +11,27 @@ export default class MovieDetailsScreen extends React.Component {
         <Text style={styles.movieTitle}>
           {this.props.navigation.getParam('title')}
         </Text>
-        <Image
-          source={{ uri: this.props.navigation.getParam('poster') }}
-          style={{ width: 100, height: 175 }}
-        />
-        <Text> {this.props.navigation.getParam('plot')}</Text>
+        <View style={styles.top}>
+          <Image
+            source={{ uri: this.props.navigation.getParam('poster') }}
+            style={{ width: 100, height: 175 }}
+          />
+          <View style={{ flexDirection: 'column', flexShrink: 1 }}>
+            <Text style={styles.detailItem}>
+              Released: {this.props.navigation.getParam('year')}
+            </Text>
+            <Text style={styles.detailItem}>
+              Genre: {this.props.navigation.getParam('genre')}
+            </Text>
+            <Text style={styles.detailItem}>
+              Rating: {this.props.navigation.getParam('rating')}
+            </Text>
+          </View>
+        </View>
+        <Text style={(styles.detailItem, { marginTop: 10 })}>
+          {' '}
+          {this.props.navigation.getParam('plot')}
+        </Text>
       </View>
     );
   }
@@ -23,12 +39,22 @@ export default class MovieDetailsScreen extends React.Component {
 const styles = StyleSheet.create({
   movie: {
     flex: 1,
-    alignItems: 'center',
-    padding: 10
+    padding: 10,
+    flexDirection: 'column'
+  },
+  top: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    margin: 10
   },
   movieTitle: {
-    fontSize: 20,
+    fontSize: 30,
     color: 'darkorchid',
-    padding: 20
+    padding: 10,
+    textAlign: 'center'
+  },
+  detailItem: {
+    padding: 10,
+    textAlign: 'left'
   }
 });
