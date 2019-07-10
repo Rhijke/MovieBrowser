@@ -64,7 +64,12 @@ export class Login extends Component {
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(this.onLoginSuccess.bind(this));
+      .then(this.onLoginSuccess.bind(this))
+      .catch(error => {
+        this.setState({
+          error: error.message
+        });
+      });
   };
   onLoginSuccess = () => {
     this.setState({
@@ -75,9 +80,6 @@ export class Login extends Component {
       loggedIn: true
     });
   };
-  componentDidUpdate() {
-    if (this.state.loggedIn) this.props.navigation.navigate('Main');
-  }
   onLoginFailure = errorMessage => {
     this.setState({ error: errorMessage, loading: false });
   };
@@ -115,6 +117,10 @@ export class Login extends Component {
         />
 
         <Text style={styles.errorTextStyle}>{this.state.error}</Text>
+        <Text>{this.state.loggedIn}</Text>
+        {this.state.loggedIn ? (
+          <Button onPress={this.props.handleLogin} title="You can login now." />
+        ) : null}
       </View>
     );
   }

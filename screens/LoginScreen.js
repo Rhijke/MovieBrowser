@@ -7,8 +7,11 @@ export default class LoginScreen extends React.Component {
   static navigationOptions = () => ({
     headerTitle: 'Login'
   });
+  handleLogin = movie => {
+    this.props.navigation.navigate('Search');
+  };
 
   render() {
-    return <Login navigation={this.props} />;
+    return <Login handleLogin={this.handleLogin} />;
   }
 }

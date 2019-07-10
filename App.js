@@ -40,7 +40,8 @@ MainStack.navigationOptions = {
 const MainTabs = createBottomTabNavigator(
   {
     Search: MainStack,
-    SavedMovies: SavedMoviesScreen
+    SavedMovies: SavedMoviesScreen,
+    Account: AccountScreen
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -51,6 +52,8 @@ const MainTabs = createBottomTabNavigator(
           iconName = 'md-search';
         } else if (routeName === 'SavedMovies') {
           iconName = `md-bookmark`;
+        } else if (routeName === 'Account') {
+          iconName = 'md-settings';
         }
 
         // You can return any component that you like here!
