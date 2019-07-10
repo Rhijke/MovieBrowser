@@ -43,8 +43,23 @@ const MainTabs = createBottomTabNavigator(
     SavedMovies: SavedMoviesScreen
   },
   {
+    defaultNavigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        if (routeName === 'Search') {
+          iconName = 'md-search';
+        } else if (routeName === 'SavedMovies') {
+          iconName = `md-bookmark`;
+        }
+
+        // You can return any component that you like here!
+        return <Ionicons name={iconName} size={25} color={tintColor} />;
+      }
+    }),
     tabBarOptions: {
-      activeTintColor: '#9932CC'
+      activeTintColor: 'darkorchid',
+      inactiveTintColor: 'gray'
     }
   }
 );
