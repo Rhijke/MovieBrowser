@@ -5,7 +5,8 @@ const processMovie = movie => ({
   title: movie.Title,
   poster: movie.Poster,
   plot: movie.Plot,
-  year: movie.Year
+  year: movie.Year,
+  imdb: movie.imdbID
 });
 
 const getPlot = async movie => {
@@ -22,7 +23,7 @@ export const fetchMovies = async search => {
 
   for (let i = 0; i < movies.length; i++) {
     const response = await fetch(
-      `http://www.omdbapi.com/?apikey=${key}&t=${movies[i].title}&plot=full`
+      `http://www.omdbapi.com/?apikey=${key}&i=${movies[i].imdb}&plot=full`
     );
     let { Plot, Genre, imdbRating } = await response.json();
     movies[i]['plot'] = Plot;
