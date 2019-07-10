@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TextInput } from 'react-native';
+import { View, StyleSheet, Text, TextInput, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 import firebase from 'firebase';
 const firebaseConfig = {
@@ -23,28 +23,8 @@ export class Login extends Component {
     error: '',
     loggedIn: false
   };
-  componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.setState({ loggedIn: true });
-      } else {
-        this.setState({ loggedIn: false });
-      }
-    });
-  }
-
-  renderComponent() {
-    if (this.state.loggedIn) {
-      return (
-        <Button title="Sign out" onPress={() => firebase.auth().signOut()} />
-      );
-    } else {
-      return <Login />;
-    }
-  }
 
   createAccount = () => {
-    this.setState({ error: '', loading: true });
     const { email, password } = this.state;
     firebase
       .auth()
@@ -66,9 +46,9 @@ export class Login extends Component {
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(this.onLoginSuccess.bind(this))
       .catch(error => {
-        this.setState({
-          error: error.message
-        });
+        let errorCode = error.code;
+        let errorMessage = error.message;
+        this.onLoginFailure.bind(this)(errorMessage);
       });
   };
   onLoginSuccess = () => {
@@ -115,9 +95,21 @@ export class Login extends Component {
           title="Create an account"
           onPress={this.createAccount.bind(this)}
         />
-
-        <Text style={styles.errorTextStyle}>{this.state.error}</Text>
-        <Text>{this.state.loggedIn}</Text>
+        {this.state.error
+          ? Alert.alert(
+              'Error',
+              `${this.state.error}`,
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel'
+                },
+                { text: 'OK', onPress: () => console.log('OK Pressed') }
+              ],
+              { cancelable: false }
+            )
+          : null}
         {this.state.loggedIn ? (
           <Button onPress={this.props.handleLogin} title="You can login now." />
         ) : null}
@@ -159,7 +151,8 @@ const styles = StyleSheet.create({
   errorTextStyle: {
     fontSize: 18,
     alignSelf: 'center',
-    color: 'red'
+    color: 'red',
+    margin: 10
   }
 });
 

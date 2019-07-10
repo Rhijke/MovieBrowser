@@ -12,6 +12,7 @@ import MovieDetailsScreen from './screens/MovieDetailsScreen';
 import LoginScreen from './screens/LoginScreen';
 import CreateAccountScreen from './screens/CreateAccountScreen';
 import SavedMoviesScreen from './screens/SavedMoviesScreen';
+import AccountScreen from './screens/AccountScreen';
 
 const AuthStack = createStackNavigator({
   Login: LoginScreen,
@@ -37,11 +38,19 @@ const MainStack = createStackNavigator(
 MainStack.navigationOptions = {
   tabBarIcon: () => <Ionicons name="md-search" size={25} />
 };
+
+const SavedMoviesStack = createStackNavigator({
+  _SavedMovies: SavedMoviesScreen,
+  MovieDetails: MovieDetailsScreen
+});
+const SettingsStack = createStackNavigator({
+  Settings: AccountScreen
+});
 const MainTabs = createBottomTabNavigator(
   {
     Search: MainStack,
-    SavedMovies: SavedMoviesScreen,
-    Account: AccountScreen
+    SavedMovies: SavedMoviesStack,
+    Account: SettingsStack
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
