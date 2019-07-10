@@ -1,11 +1,24 @@
 import React from 'react';
-import { createAppContainer, createStackNavigator } from 'react-navigation';
+import {
+  createAppContainer,
+  createStackNavigator,
+  createBottomTabNavigator,
+  createSwitchNavigator
+} from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import SearchScreen from './screens/SearchScreen';
 import MovieDetailsScreen from './screens/MovieDetailsScreen';
+import LoginScreen from './screens/LoginScreen';
+import CreateAccountScreen from './screens/CreateAccountScreen';
+import SavedMoviesScreen from './screens/SavedMoviesScreen';
 
-const AppNavigator = createStackNavigator(
+const AuthStack = createStackNavigator({
+  Login: LoginScreen,
+  CreateAccount: CreateAccountScreen
+});
+
+const MainStack = createStackNavigator(
   {
     SearchMovie: SearchScreen,
     MovieDetails: MovieDetailsScreen
@@ -20,6 +33,26 @@ const AppNavigator = createStackNavigator(
     }
   }
 );
+
+MainStack.navigationOptions = {
+  tabBarIcon: () => <Ionicons name="md-search" size={25} />
+};
+const MainTabs = createBottomTabNavigator(
+  {
+    Search: MainStack,
+    SavedMovies: SavedMoviesScreen
+  },
+  {
+    tabBarOptions: {
+      activeTintColor: '#9932CC'
+    }
+  }
+);
+
+const AppNavigator = createSwitchNavigator({
+  Login: AuthStack,
+  Main: MainTabs
+});
 const AppContainer = createAppContainer(AppNavigator);
 export default AppContainer;
 
