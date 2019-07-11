@@ -1,19 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TextInput, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
-import firebase from 'firebase';
-const firebaseConfig = {
-  apiKey: 'AIzaSyCM7nqiP7fIsuEAbTe13_DyD3Rb9NveJX0',
-  authDomain: 'moviebrowser-bec79.firebaseapp.com',
-  databaseURL: 'https://moviebrowser-bec79.firebaseio.com',
-  projectId: 'moviebrowser-bec79',
-  storageBucket: 'moviebrowser-bec79.appspot.com',
-  messagingSenderId: '268555326444',
-  appId: '1:268555326444:web:be549131c3d837c3'
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+import firebase from './Firebase';
 
 // Login class
 export class Login extends Component {
@@ -23,13 +11,26 @@ export class Login extends Component {
     error: '',
     loggedIn: false
   };
+  componentDidMount() {
+    console.disableYellowBox = true;
+  }
 
   createAccount = () => {
+    if (this.checkInput()) return;
     const { email, password } = this.state;
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(this.onLoginSuccess.bind(this))
+      .then(cred => {
+        return firebase
+          .firestore()
+          .collection('users')
+          .doc(cred.user.uid)
+          .set({
+            savedMovies: []
+          });
+      })
+      .then(() => this.onLoginSuccess.bind(this))
       .catch(error => {
         let errorCode = error.code;
         let errorMessage = error.message;
@@ -41,6 +42,7 @@ export class Login extends Component {
       });
   };
   login = () => {
+    if (this.checkInput()) return;
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
@@ -56,12 +58,16 @@ export class Login extends Component {
       email: '',
       password: '',
       error: '',
-      loading: false,
       loggedIn: true
     });
+    this.props.handleLogin();
   };
   onLoginFailure = errorMessage => {
     this.setState({ error: errorMessage, loading: false });
+  };
+  checkInput = () => {
+    if (this.state.password < 3 && this.state.email < 3) return true;
+    return false;
   };
   render() {
     return (
@@ -102,17 +108,23 @@ export class Login extends Component {
               [
                 {
                   text: 'Cancel',
-                  onPress: () => console.log('Cancel Pressed'),
+                  onPress: () =>
+                    this.setState({
+                      error: ''
+                    }),
                   style: 'cancel'
                 },
-                { text: 'OK', onPress: () => console.log('OK Pressed') }
+                {
+                  text: 'OK',
+                  onPress: () =>
+                    this.setState({
+                      error: ''
+                    })
+                }
               ],
               { cancelable: false }
             )
           : null}
-        {this.state.loggedIn ? (
-          <Button onPress={this.props.handleLogin} title="You can login now." />
-        ) : null}
       </View>
     );
   }
