@@ -2,16 +2,25 @@ import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import ScrollViewMovies from './ScrollViewMovies';
 import firebase from './Firebase';
-import { searchMovieIMDB, processMovie } from './searchMovieAPI';
+import { fetchMoviesID } from './searchMovieAPI';
 export default class SearchMovieForm extends React.Component {
   state = {
-    results: []
+    savedIMDB: [],
+    movieDetails: []
   };
   componentWillMount() {
     this.getSavedMovies();
   }
-  processSave = async movie => {
-    return await searchMovieIMDB(movie);
+  // componentDidUpdate() {
+  //   this.setState(prevState => ({
+  //     movieDetails: fetchMoviesID(prevState.savedIMDB)
+  //   }));
+  // }
+  getMovieDetails = async results => {
+    let movies = await fetchMoviesID(results);
+    this.setState({
+      movieDetails: movies
+    });
   };
   getSavedMovies = async () => {
     let results = [];
@@ -21,15 +30,9 @@ export default class SearchMovieForm extends React.Component {
       .doc(`${firebase.auth().currentUser.uid}`)
       .onSnapshot(doc => {
         results = doc.data().savedMovies;
-        console.log(results);
-        for (let i = 0; i < results.length; i++) {
-          console.log(results[i]);
-          results[i] = processMovie(this.processSave(results[i]));
-          console.log(results[i]);
-        }
-
+        this.getMovieDetails(results);
         this.setState({
-          results
+          savedIMDB: results
         });
       });
   };
@@ -37,9 +40,9 @@ export default class SearchMovieForm extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.state.results.length > 0 ? (
+        {this.state.movieDetails.length > 0 ? (
           <ScrollViewMovies
-            movies={this.state.results}
+            movies={this.state.movieDetails}
             onSelectMovie={this.props.handleSelectMovie}
           />
         ) : (

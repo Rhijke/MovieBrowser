@@ -41,3 +41,13 @@ export const fetchMovies = async search => {
   movies.forEach(movie => console.log(movie));
   return movies;
 };
+
+export const fetchMoviesID = async imdbArr => {
+  for (let i = 0; i < imdbArr.length; i++) {
+    let JSON = await searchMovieIMDB(imdbArr[i]);
+    imdbArr[i] = processMovie(JSON);
+    imdbArr[i]['genre'] = JSON.Genre;
+    imdbArr[i]['rating'] = JSON.imdbRating;
+  }
+  return imdbArr;
+};
