@@ -1,9 +1,24 @@
 import React from 'react';
 import { Image, Text, View, StyleSheet } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { saveMovie } from '../SavedMovies';
 
 export default class MovieDetailsScreen extends React.Component {
+  state = {
+    imdbID: this.props.navigation.getParam('imdb')
+  };
+
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: navigation.getParam('title')
+    headerTitle: navigation.getParam('title'),
+    headerRight: (
+      <TouchableOpacity
+        style={{ paddingRight: 20 }}
+        onPress={() => saveMovie(navigation.getParam('imdb'))}
+      >
+        <Ionicons name="md-star-outline" size={25} />
+      </TouchableOpacity>
+    )
   });
   render() {
     return (

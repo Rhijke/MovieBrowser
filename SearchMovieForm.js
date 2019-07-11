@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Picker } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import Constants from 'expo-constants';
-import { fetchMovies, getPlot } from './api';
+import { fetchMovies } from './searchFormAPI';
 import ScrollViewMovies from './ScrollViewMovies';
 
 export default class SearchMovieForm extends React.Component {
