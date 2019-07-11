@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, View, Picker } from 'react-native';
+import { StyleSheet, View, Picker, Alert } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import Constants from 'expo-constants';
-import { fetchMovies } from './searchFormAPI';
+import { fetchMovies } from './searchMovieAPI';
 import ScrollViewMovies from './ScrollViewMovies';
 
 export default class SearchMovieForm extends React.Component {
@@ -18,11 +18,15 @@ export default class SearchMovieForm extends React.Component {
   };
 
   doneSearch = async () => {
-    if (this.state.search) {
-      let movies = await fetchMovies(this.state.search);
-      this.setState(prevState => ({
-        results: movies
-      }));
+    try {
+      if (this.state.search) {
+        let movies = await fetchMovies(this.state.search.replace(' ', '+'));
+        this.setState(prevState => ({
+          results: movies
+        }));
+      }
+    } catch (error) {
+      Alert.alert('Error', `${error}`);
     }
   };
   checkPicker = () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, Text, View, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { saveMovie } from '../SavedMovies';
+import { saveMovie } from '../AddSavedMovie';
 
 export default class MovieDetailsScreen extends React.Component {
   state = {
