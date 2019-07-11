@@ -46,7 +46,14 @@ export default class SearchMovieForm extends React.Component {
             onSelectMovie={this.props.handleSelectMovie}
           />
         ) : (
-          <Text style={{ color: 'darkorchid', textAlign: 'center' }}>
+          <Text
+            style={{
+              color: 'darkorchid',
+              textAlign: 'center',
+              alignSelf: 'center',
+              fontSize: 20
+            }}
+          >
             Add movies.
           </Text>
         )}
@@ -57,6 +64,7 @@ export default class SearchMovieForm extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'center'
   }
 });
