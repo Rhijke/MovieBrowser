@@ -10,12 +10,31 @@ export const saveMovie = imdb => {
       .firestore()
       .collection('users')
       .doc(`${userID}`);
-    dbCollectionUser
-      .update({
-        savedMovies: firebase.firestore.FieldValue.arrayUnion(imdb)
-      })
-      .then(function() {
-        console.log('Document successfully updated!');
+
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(`${userID}`)
+      .get()
+      .then(doc => {
+        savedMovies = doc.data().savedMovies;
+        if (!savedMovies.includes(imdb)) {
+          dbCollectionUser
+            .update({
+              savedMovies: firebase.firestore.FieldValue.arrayUnion(imdb)
+            })
+            .then(function() {
+              console.log('Document successfully updated!');
+            });
+        } else {
+          dbCollectionUser
+            .update({
+              savedMovies: firebase.firestore.FieldValue.arrayRemove(imdb)
+            })
+            .then(function() {
+              console.log('Document successfully updated!');
+            });
+        }
       });
   }
 };
