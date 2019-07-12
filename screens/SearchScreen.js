@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchMovieForm from '../SearchMovieForm';
+import SearchMovieForm from '../scripts/SearchMovieForm';
 
 export default class SearchMovieScreen extends React.Component {
   static navigationOptions = {

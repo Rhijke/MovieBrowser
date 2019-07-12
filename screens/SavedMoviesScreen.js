@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
-import SavedMovies from '../SavedMovies';
+import SavedMovies from '../scripts/SavedMovies';
 
 export default class SavedMoviesScreen extends Component {
   static navigationOptions = {
