@@ -20,8 +20,6 @@ export class GenerateIcon extends Component {
         .get()
         .then(doc => {
           savedMovies = doc.data().savedMovies;
-          console.log(doc.data().savedMovies);
-          console.log(savedMovies.includes(imdb));
           if (savedMovies.includes(imdb)) {
             this.setState({
               savedMovie: true
@@ -30,7 +28,9 @@ export class GenerateIcon extends Component {
         });
     }
   };
+
   componentWillMount() {
+    console.log('will mount');
     this.checkSavedMovie(this.props.imdb);
   }
 

@@ -1,8 +1,7 @@
 import key from './config';
 import firebase from './Firebase';
 import React, { Component } from 'react';
-import { Image, Text, View, StyleSheet } from 'react-native';
-
+import { Image, Text, View, StyleSheet, Alert } from 'react-native';
 export const saveMovie = imdb => {
   if (firebase.auth().currentUser) {
     let userID = firebase.auth().currentUser.uid;
@@ -25,6 +24,7 @@ export const saveMovie = imdb => {
             })
             .then(function() {
               console.log('Document successfully updated!');
+              Alert.alert('Saved!', 'Movie saved.');
             });
         } else {
           dbCollectionUser
@@ -33,6 +33,7 @@ export const saveMovie = imdb => {
             })
             .then(function() {
               console.log('Document successfully updated!');
+              Alert.alert('Removed!', 'Movie removed.');
             });
         }
       });

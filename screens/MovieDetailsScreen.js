@@ -7,22 +7,40 @@ import GenerateIcon from '../scripts/GenerateIcon';
 
 export default class MovieDetailsScreen extends React.Component {
   state = {
-    imdbID: this.props.navigation.getParam('imdb')
+    imdbID: this.props.navigation.getParam('imdb'),
+    saved: false
   };
-
-  componentWillMount() {}
 
   static navigationOptions = ({ navigation }) => ({
     headerTitle: navigation.getParam('title'),
     headerRight: (
       <TouchableOpacity
         style={{ paddingRight: 20 }}
-        onPress={() => saveMovie(navigation.getParam('imdb'))}
+        onPress={() => {
+          saveMovie(navigation.getParam('imdb'));
+        }}
       >
         <GenerateIcon imdb={navigation.getParam('imdb')} />
       </TouchableOpacity>
     )
   });
+
+  componentDidMount() {
+    console.log('Movie SccDm');
+  }
+  componentWillReceiveProps() {
+    console.log('receive props');
+  }
+  componentWillUnmount() {
+    console.log('will unmount');
+  }
+  componentWillUpdate() {
+    console.log('will update');
+  }
+
+  componentDidUpdate() {
+    console.log('did update');
+  }
   render() {
     return (
       <View style={styles.movie}>
