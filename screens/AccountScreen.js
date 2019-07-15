@@ -32,7 +32,7 @@ export default class AccountScreen extends Component {
   };
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Button
           buttonStyle={{ justifyContent: 'center' }}
           type="outline"
@@ -43,3 +43,11 @@ export default class AccountScreen extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+});
