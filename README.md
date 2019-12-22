@@ -1,5 +1,7 @@
 # MovieBrowser
-React Native app to search movies descriptions.
+React Native app to search movies details and save movies to user account.
+
+[Download here](https://expo.io/@rhijke/MovieBrowser)
 
 # User Stories
 
